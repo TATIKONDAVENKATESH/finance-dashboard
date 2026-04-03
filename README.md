@@ -1,32 +1,54 @@
-# Finance Dashboard UI
+# Finance Dashboard
 
 ## Overview
-A responsive finance dashboard built using React and Tailwind CSS.
+A responsive finance dashboard built using React to track transactions, view summaries, and understand spending patterns.
 
 ## Features
-- Summary cards (Balance, Income, Expenses)
-- Charts (Line + Pie)
-- Transactions table with search
-- Role-based UI (Viewer/Admin)
-- Insights section
+
+- Dashboard:
+  - Total balance
+  - Income and expense summary
+  - Charts (trend + category breakdown)
+
+- Transactions:
+  - View transactions
+  - Search by category
+  - Sort by date and amount
+  - Add / edit / delete (admin role)
+
+- Role-based UI:
+  - Viewer → read-only
+  - Admin → full access
+
+- Insights:
+  - Highest spending category
+  - Monthly comparison
+
+- Other:
+  - LocalStorage persistence
+  - CSV export
+  - Toast notifications
+  - Confirm delete modal
+
 
 ## Tech Stack
+
 - React (Vite)
 - Tailwind CSS
 - Recharts
+- Context API
+- lucide-react
 
-## Installation
+## Live Website URL
+- https://finance-dashboard-two-beige.vercel.app/
 
-```bash
-npm install
-npm run dev
-```
+## Setup
+
+- git clone <repo-link>
+- cd finance-dashboard
+- npm install
+- npm run dev
 
 ## Role Simulation
 - Viewer → Read-only
-- Admin → Can add transactions
-
-## Future Improvements
-- Dark mode
-- Local storage persistence
-- Advanced filters
+- Admin → Can do CRUD transactions
