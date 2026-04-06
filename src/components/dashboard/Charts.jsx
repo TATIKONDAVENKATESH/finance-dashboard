@@ -25,7 +25,7 @@ export default function Charts({ data }) {
   const monthlyData = groupByMonth(data);
   const categoryData = categoryBreakdown(data);
 
-  // 🎯 Theme-based colors
+  // Theme-based colors
   const chartColors = {
     grid: isDark ? "#444" : "#E5E7EB",
     axis: isDark ? "#aaa" : "#374151",
@@ -40,7 +40,7 @@ export default function Charts({ data }) {
   return (
     <div className="grid md:grid-cols-2 gap-6">
 
-      {/* 🔹 Balance Trend */}
+      {/* Balance Trend */}
       <div className={`${chartColors.cardBg} p-4 rounded-2xl backdrop-blur border`}>
         <h2 className={`${chartColors.text} mb-3 font-medium`}>
           Balance Trend
@@ -72,7 +72,7 @@ export default function Charts({ data }) {
         </div>
       </div>
 
-      {/* 🔹 Income vs Expense */}
+      {/* Income vs Expense */}
       <div className={`${chartColors.cardBg} p-4 rounded-2xl backdrop-blur border`}>
         <h2 className={`${chartColors.text} mb-3 font-medium`}>
           Income vs Expense
@@ -101,7 +101,7 @@ export default function Charts({ data }) {
         </div>
       </div>
 
-      {/* 🔹 Category Breakdown */}
+      {/* Category Breakdown */}
       <div className={`${chartColors.cardBg} md:col-span-2 p-4 rounded-2xl backdrop-blur border`}>
         <h2 className={`${chartColors.text} mb-3 font-medium`}>
           Spending Breakdown

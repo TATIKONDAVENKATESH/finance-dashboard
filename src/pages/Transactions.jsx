@@ -22,7 +22,7 @@ export default function Transactions() {
 
     const [deleteId, setDeleteId] = useState(null);
 
-    // ✅ Convert role → boolean (single source of truth)
+    // Convert role → boolean (single source of truth)
     const isAdmin = role === "admin";
 
     const handleAddClick = () => {
@@ -34,7 +34,7 @@ export default function Transactions() {
         if (deleteId === null) return;
 
         deleteTransaction(deleteId);
-        showToast("Deleted successfully ❌");
+        showToast("Deleted successfully");
 
         setDeleteId(null);
         setEditingTx(null);
@@ -43,11 +43,11 @@ export default function Transactions() {
     return (
         <div className="space-y-6">
             
-            {/* 🔹 Table */}
+            {/* Table */}
             <section>
                 <TransactionTable
                     data={transactions}
-                    role={isAdmin}   // ✅ FIXED HERE
+                    role={isAdmin}
                     onAddClick={handleAddClick}
                     onDelete={(id) => setDeleteId(id)}
                     onEdit={(tx) => {
@@ -57,12 +57,12 @@ export default function Transactions() {
                 />
             </section>
 
-            {/* 🔹 Add/Edit Modal */}
+            {/* Add/Edit Modal */}
             {showModal && (
                 <AddTransactionModal
                     onAdd={(tx) => {
                         addOrUpdateTransaction(tx);
-                        showToast("Transaction saved ✅");
+                        showToast("Transaction saved");
                     }}
                     onClose={() => {
                         setShowModal(false);
@@ -72,7 +72,7 @@ export default function Transactions() {
                 />
             )}
 
-            {/* 🔹 Confirm Delete */}
+            {/* Confirm Delete */}
             {deleteId !== null && (
                 <ConfirmModal
                     onConfirm={handleConfirmDelete}

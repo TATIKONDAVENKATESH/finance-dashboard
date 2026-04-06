@@ -14,7 +14,7 @@ export default function TransactionTable({
   const { theme } = useContext(ThemeContext);
   const isDark = theme === "dark";
 
-  // ✅ Normalize role (handles "Admin", "ADMIN", undefined, etc.)
+  // Normalize role (handles "Admin", "ADMIN", undefined, etc.)
   const isAdmin =
     typeof role === "string"
       ? role.toLowerCase() === "admin"
@@ -45,7 +45,7 @@ export default function TransactionTable({
           : "bg-white border-gray-200"
         }`}
     >
-      {/* 🔹 Top Bar */}
+      {/* Top Bar */}
       <div className="flex flex-col md:flex-row justify-between gap-3 mb-4">
 
         {/* Search */}
@@ -86,7 +86,7 @@ export default function TransactionTable({
             Export CSV
           </button>
 
-          {/* ✅ Add Button */}
+          {/* Add Button */}
           {isAdmin && (
             <button
               onClick={onAddClick}
@@ -98,7 +98,7 @@ export default function TransactionTable({
         </div>
       </div>
 
-      {/* 🔹 Table */}
+      {/* Table */}
       <div className="overflow-x-auto">
         <table
           className={`w-full text-sm ${isDark ? "text-white" : "text-gray-800"

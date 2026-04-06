@@ -17,12 +17,12 @@ import {
 const AppContext = createContext(null);
 
 export function AppProvider({ children }) {
-    // 🔹 Role (✅ persisted)
+    // Role (persisted)
     const [role, setRole] = useState(() => {
         return localStorage.getItem("role") || "viewer";
     });
 
-    // 🔹 Transactions (safe persistence)
+    // Transactions (safe persistence)
     const [transactions, setTransactions] = useState(() => {
         try {
             const saved = localStorage.getItem("transactions");
@@ -33,21 +33,21 @@ export function AppProvider({ children }) {
         }
     });
 
-    // 🔹 Modal + Edit state
+    // Modal + Edit state
     const [showModal, setShowModal] = useState(false);
     const [editingTx, setEditingTx] = useState(null);
 
-    // 🔹 Persist transactions
+    // Persist transactions
     useEffect(() => {
         localStorage.setItem("transactions", JSON.stringify(transactions));
     }, [transactions]);
 
-    // 🔹 Persist role ✅
+    // Persist role
     useEffect(() => {
         localStorage.setItem("role", role);
     }, [role]);
 
-    // 🔹 Add / Update
+    // Add / Update
     const addOrUpdateTransaction = useCallback((tx) => {
         setTransactions((prev) => {
             let newTx = tx;
@@ -68,17 +68,17 @@ export function AppProvider({ children }) {
         setEditingTx(null);
     }, []);
 
-    // 🔹 Delete
+    // Delete
     const deleteTransaction = useCallback((id) => {
         setTransactions((prev) => prev.filter((t) => t.id !== id));
     }, []);
 
-    // 🔹 Derived values
+    // Derived values
     const income = useMemo(() => getIncome(transactions), [transactions]);
     const expense = useMemo(() => getExpense(transactions), [transactions]);
     const balance = useMemo(() => getBalance(transactions), [transactions]);
 
-    // 🔹 Context value
+    // Context value
     const value = useMemo(
         () => ({
             role,
@@ -119,7 +119,7 @@ export function AppProvider({ children }) {
     );
 }
 
-// 🔹 Hook
+// Hook
 export const useAppContext = () => {
     const context = useContext(AppContext);
 

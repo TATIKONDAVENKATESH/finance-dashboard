@@ -38,7 +38,7 @@ export default function Dashboard() {
     if (deleteId === null) return;
 
     deleteTransaction(deleteId);
-    showToast("Deleted successfully ❌");
+    showToast("Deleted successfully");
 
     setDeleteId(null);
     setEditingTx(null);
@@ -47,19 +47,19 @@ export default function Dashboard() {
   return (
     <div className="space-y-6">
 
-      {/* 🔹 Cards */}
+      {/* Cards */}
       <section className="grid md:grid-cols-3 gap-4">
         <HeroCard balance={balance} />
         <SummaryCard title="Income" value={income} />
         <SummaryCard title="Expenses" value={expense} />
       </section>
 
-      {/* 🔹 Charts */}
+      {/* Charts */}
       <section>
         <Charts data={transactions} />
       </section>
 
-      {/* 🔹 Transactions */}
+      {/* Transactions */}
       <section>
         <TransactionTable
           data={transactions}
@@ -73,17 +73,17 @@ export default function Dashboard() {
         />
       </section>
 
-      {/* 🔹 Insights */}
+      {/* Insights */}
       <section>
         <Insights data={transactions} />
       </section>
 
-      {/* 🔹 Add/Edit Modal */}
+      {/* Add/Edit Modal */}
       {showModal && (
         <AddTransactionModal
           onAdd={(tx) => {
             addOrUpdateTransaction(tx);
-            showToast("Transaction saved ✅");
+            showToast("Transaction saved");
           }}
           onClose={() => {
             setShowModal(false);
@@ -93,7 +93,7 @@ export default function Dashboard() {
         />
       )}
 
-      {/* 🔹 Confirm Delete */}
+      {/* Confirm Delete */}
       {deleteId !== null && (
         <ConfirmModal
           onConfirm={handleConfirmDelete}

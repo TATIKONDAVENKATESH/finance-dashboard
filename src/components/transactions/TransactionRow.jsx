@@ -50,7 +50,7 @@ export default function TransactionRow({ t, role, onDelete, onEdit }) {
                 </span>
             </td>
 
-            {/* ✅ Actions */}
+            {/* Actions */}
             {role && (
                 <td className="space-x-3">
                     <button

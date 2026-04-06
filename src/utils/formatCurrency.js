@@ -1,4 +1,4 @@
-// 🔹 Format number to INR currency (₹12,000 style)
+// Format number to INR currency (₹12,000 style)
 export function formatCurrency(amount) {
     if (amount === null || amount === undefined) return "₹0";
 

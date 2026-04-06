@@ -1,25 +1,25 @@
-// 🔹 Calculate total income
+// Calculate total income
 export function getIncome(transactions) {
     return transactions
         .filter((t) => t.type === "income")
         .reduce((sum, t) => sum + t.amount, 0);
 }
 
-// 🔹 Calculate total expense
+// Calculate total expense
 export function getExpense(transactions) {
     return transactions
         .filter((t) => t.type === "expense")
         .reduce((sum, t) => sum + t.amount, 0);
 }
 
-// 🔹 Calculate balance
+// Calculate balance
 export function getBalance(transactions) {
     const income = getIncome(transactions);
     const expense = getExpense(transactions);
     return income - expense;
 }
 
-// 🔹 Highest spending category
+// Highest spending category
 export function getHighestSpendingCategory(transactions) {
     const map = {};
 
@@ -43,7 +43,7 @@ export function getHighestSpendingCategory(transactions) {
     return { category: maxCategory, amount: maxAmount };
 }
 
-// 🔹 Monthly comparison (latest vs previous month)
+// Monthly comparison (latest vs previous month)
 export function getMonthlyComparison(transactions) {
     const monthly = {};
 

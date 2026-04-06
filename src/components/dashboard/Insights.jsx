@@ -24,7 +24,7 @@ export default function Insights({ data }) {
     >
       <h2 className="font-semibold mb-4">Insights (Compared to last MONTH)</h2>
 
-      {/* 🔹 Highest Spending */}
+      {/* Highest Spending */}
       {highest?.category ? (
         <p className="mb-2">
           Highest Spending:{" "}
@@ -39,7 +39,7 @@ export default function Insights({ data }) {
         </p>
       )}
 
-      {/* 🔹 Monthly Comparison */}
+      {/* Monthly Comparison */}
       {monthly ? (
         <div className="mt-3 space-y-1">
 
