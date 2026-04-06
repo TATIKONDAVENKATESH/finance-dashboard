@@ -1,3 +1,6 @@
+import { useContext } from "react";
+import { ThemeContext } from "../../context/ThemeContext";
+
 export default function Button({
     children,
     onClick,
@@ -9,14 +12,24 @@ export default function Button({
     fullWidth = false,
     icon,
 }) {
+    const { theme } = useContext(ThemeContext);
+    const isDark = theme === "dark";
+
     const base =
-        "inline-flex items-center justify-center gap-2 rounded-lg font-medium transition focus:outline-none focus:ring-2 focus:ring-indigo-500";
+        "inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-indigo-500";
 
     const variants = {
-        primary: "bg-indigo-500 text-white hover:bg-indigo-600",
-        secondary: "bg-gray-700 text-white hover:bg-gray-600",
-        danger: "bg-red-500 text-white hover:bg-red-600",
-        ghost: "bg-transparent text-gray-300 hover:bg-white/10",
+        primary: "bg-indigo-500 text-white hover:bg-indigo-600 shadow",
+
+        secondary: isDark
+            ? "bg-gray-700 text-white hover:bg-gray-600"
+            : "bg-gray-100 text-gray-800 hover:bg-gray-200",
+
+        danger: "bg-red-500 text-white hover:bg-red-600 shadow",
+
+        ghost: isDark
+            ? "bg-transparent text-gray-300 hover:bg-white/10"
+            : "bg-transparent text-gray-700 hover:bg-gray-100",
     };
 
     const sizes = {
@@ -30,15 +43,20 @@ export default function Button({
             onClick={onClick}
             disabled={disabled || loading}
             className={`
-          ${base}
-          ${variants[variant]}
-          ${sizes[size]}
-          ${fullWidth ? "w-full" : ""}
-          ${disabled ? "opacity-50 cursor-not-allowed" : "hover:scale-105"}
-          ${className}
-        `}
+        ${base}
+        ${variants[variant]}
+        ${sizes[size]}
+        ${fullWidth ? "w-full" : ""}
+        ${disabled || loading
+                    ? "opacity-50 cursor-not-allowed"
+                    : "hover:scale-[1.02] active:scale-[0.98]"
+                }
+        ${className}
+      `}
         >
-            {loading ? "Loading..." : (
+            {loading ? (
+                <span className="animate-pulse">Loading...</span>
+            ) : (
                 <>
                     {icon && <span className="flex items-center">{icon}</span>}
                     {children}
@@ -46,4 +64,4 @@ export default function Button({
             )}
         </button>
     );
-  }
+}

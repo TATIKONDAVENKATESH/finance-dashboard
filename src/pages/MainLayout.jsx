@@ -4,7 +4,7 @@ import { Outlet } from "react-router-dom";
 
 export default function MainLayout() {
     return (
-        <div className="flex bg-[#020617] min-h-screen">
+        <div className="flex bg-white dark:bg-[#020617] min-h-screen">
             <Sidebar />
 
             <div className="flex-1 p-6">

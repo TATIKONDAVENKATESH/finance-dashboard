@@ -27,16 +27,13 @@ export default function Dashboard() {
 
   const { showToast } = useToast();
 
-  // 🔹 Delete state
   const [deleteId, setDeleteId] = useState(null);
 
-  // 🔹 Add click
   const handleAddClick = () => {
     setEditingTx(null);
     setShowModal(true);
   };
 
-  // 🔹 Confirm delete
   const handleConfirmDelete = () => {
     if (deleteId === null) return;
 
@@ -48,34 +45,38 @@ export default function Dashboard() {
   };
 
   return (
-    <div>
+    <div className="space-y-6">
 
       {/* 🔹 Cards */}
-      <div className="grid md:grid-cols-3 gap-4">
+      <section className="grid md:grid-cols-3 gap-4">
         <HeroCard balance={balance} />
         <SummaryCard title="Income" value={income} />
         <SummaryCard title="Expenses" value={expense} />
-      </div>
+      </section>
 
       {/* 🔹 Charts */}
-      <div className="mt-6">
+      <section>
         <Charts data={transactions} />
-      </div>
+      </section>
 
       {/* 🔹 Transactions */}
-      <TransactionTable
-        data={transactions}
-        role={role}
-        onAddClick={handleAddClick}
-        onDelete={(id) => setDeleteId(id)}
-        onEdit={(tx) => {
-          setEditingTx(tx);
-          setShowModal(true);
-        }}
-      />
+      <section>
+        <TransactionTable
+          data={transactions}
+          role={role}
+          onAddClick={handleAddClick}
+          onDelete={(id) => setDeleteId(id)}
+          onEdit={(tx) => {
+            setEditingTx(tx);
+            setShowModal(true);
+          }}
+        />
+      </section>
 
       {/* 🔹 Insights */}
-      <Insights data={transactions} />
+      <section>
+        <Insights data={transactions} />
+      </section>
 
       {/* 🔹 Add/Edit Modal */}
       {showModal && (

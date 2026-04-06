@@ -5,13 +5,16 @@ import App from './App.jsx';
 
 import { AppProvider } from "./context/AppContext";
 import { ToastProvider } from "./context/ToastContext";
+import ThemeProvider from "./context/ThemeContext";
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <AppProvider>
-      <ToastProvider>
-        <App />
-      </ToastProvider>
-    </AppProvider>
+    <ThemeProvider>
+      <AppProvider>
+        <ToastProvider>
+          <App />
+        </ToastProvider>
+      </AppProvider>
+    </ThemeProvider>
   </StrictMode>
 );

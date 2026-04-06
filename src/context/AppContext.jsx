@@ -17,8 +17,10 @@ import {
 const AppContext = createContext(null);
 
 export function AppProvider({ children }) {
-    // 🔹 Role
-    const [role, setRole] = useState("viewer");
+    // 🔹 Role (✅ persisted)
+    const [role, setRole] = useState(() => {
+        return localStorage.getItem("role") || "viewer";
+    });
 
     // 🔹 Transactions (safe persistence)
     const [transactions, setTransactions] = useState(() => {
@@ -35,17 +37,21 @@ export function AppProvider({ children }) {
     const [showModal, setShowModal] = useState(false);
     const [editingTx, setEditingTx] = useState(null);
 
-    // 🔹 Persist data
+    // 🔹 Persist transactions
     useEffect(() => {
         localStorage.setItem("transactions", JSON.stringify(transactions));
     }, [transactions]);
 
-    // 🔹 Add / Update (robust + deterministic)
+    // 🔹 Persist role ✅
+    useEffect(() => {
+        localStorage.setItem("role", role);
+    }, [role]);
+
+    // 🔹 Add / Update
     const addOrUpdateTransaction = useCallback((tx) => {
         setTransactions((prev) => {
             let newTx = tx;
 
-            // ✅ Ensure ID exists
             if (!tx.id) {
                 newTx = { ...tx, id: Date.now() };
             }
@@ -62,17 +68,17 @@ export function AppProvider({ children }) {
         setEditingTx(null);
     }, []);
 
-    // 🔹 Delete (memoized)
+    // 🔹 Delete
     const deleteTransaction = useCallback((id) => {
         setTransactions((prev) => prev.filter((t) => t.id !== id));
     }, []);
 
-    // 🔹 Derived values (memoized)
+    // 🔹 Derived values
     const income = useMemo(() => getIncome(transactions), [transactions]);
     const expense = useMemo(() => getExpense(transactions), [transactions]);
     const balance = useMemo(() => getBalance(transactions), [transactions]);
 
-    // 🔹 Context value (memoized)
+    // 🔹 Context value
     const value = useMemo(
         () => ({
             role,
@@ -113,7 +119,7 @@ export function AppProvider({ children }) {
     );
 }
 
-// 🔹 Custom hook
+// 🔹 Hook
 export const useAppContext = () => {
     const context = useContext(AppContext);
 
@@ -122,4 +128,4 @@ export const useAppContext = () => {
     }
 
     return context;
-  };
+};
