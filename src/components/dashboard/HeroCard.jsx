@@ -12,8 +12,8 @@ export default function HeroCard({ balance }) {
     <div
       className={`md:col-span-2 p-6 rounded-2xl shadow-lg transition-transform hover:scale-[1.02]
         ${isDark
-          ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white"
-          : "bg-gradient-to-r from-indigo-400 to-purple-500 text-white"
+          ? "bg-linear-to-r from-indigo-500 to-purple-600 text-white"
+          : "bg-linear-to-r from-indigo-400 to-purple-500 text-white"
         }`}
     >
       {/* Label */}
