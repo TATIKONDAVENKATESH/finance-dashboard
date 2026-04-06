@@ -4,11 +4,13 @@ import {
   Lightbulb,
 } from "lucide-react";
 
+import { NavLink } from "react-router-dom";
+
 export default function Sidebar() {
   const menu = [
-    { name: "Dashboard", icon: LayoutDashboard, active: true },
-    { name: "Transactions", icon: ListOrdered },
-    { name: "Insights", icon: Lightbulb },
+    { name: "Dashboard", icon: LayoutDashboard, path: "/" },
+    { name: "Transactions", icon: ListOrdered, path: "/transactions" },
+    { name: "Insights", icon: Lightbulb, path: "/insights" },
   ];
 
   return (
@@ -25,16 +27,19 @@ export default function Sidebar() {
           const Icon = item.icon;
 
           return (
-            <div
+            <NavLink
               key={i}
-              className={`flex items-center gap-3 px-3 py-2 rounded-lg cursor-pointer transition ${item.active
+              to={item.path}
+              className={({ isActive }) =>
+                `flex items-center gap-3 px-3 py-2 rounded-lg transition ${isActive
                   ? "bg-indigo-500/20 text-indigo-400"
                   : "hover:bg-white/5 text-gray-300"
-                }`}
+                }`
+              }
             >
               <Icon size={18} />
               <span>{item.name}</span>
-            </div>
+            </NavLink>
           );
         })}
       </nav>

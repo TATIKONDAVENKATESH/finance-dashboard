@@ -1,5 +1,3 @@
-import Sidebar from "../components/layout/Sidebar";
-import Topbar from "../components/layout/Topbar";
 import SummaryCard from "../components/dashboard/SummaryCard";
 import HeroCard from "../components/dashboard/HeroCard";
 import Charts from "../components/dashboard/Charts";
@@ -15,7 +13,6 @@ import { useToast } from "../context/ToastContext";
 export default function Dashboard() {
   const {
     role,
-    setRole,
     transactions,
     showModal,
     setShowModal,
@@ -30,53 +27,55 @@ export default function Dashboard() {
 
   const { showToast } = useToast();
 
-  // ✅ Confirm delete state
+  // 🔹 Delete state
   const [deleteId, setDeleteId] = useState(null);
 
-  // ✅ Handle confirm delete
+  // 🔹 Add click
+  const handleAddClick = () => {
+    setEditingTx(null);
+    setShowModal(true);
+  };
+
+  // 🔹 Confirm delete
   const handleConfirmDelete = () => {
+    if (deleteId === null) return;
+
     deleteTransaction(deleteId);
     showToast("Deleted successfully ❌");
+
     setDeleteId(null);
+    setEditingTx(null);
   };
 
   return (
-    <div className="flex bg-[#020617] min-h-screen">
+    <div>
 
-      {/* 🔹 Sidebar */}
-      <Sidebar />
-
-      {/* 🔹 Main Content */}
-      <div className="flex-1 p-6">
-        <Topbar role={role} setRole={setRole} />
-
-        {/* 🔹 Cards */}
-        <div className="grid md:grid-cols-3 gap-4">
-          <HeroCard balance={balance} />
-          <SummaryCard title="Income" value={income} />
-          <SummaryCard title="Expenses" value={expense} />
-        </div>
-
-        {/* 🔹 Charts */}
-        <div className="mt-6">
-          <Charts data={transactions} />
-        </div>
-
-        {/* 🔹 Transactions */}
-        <TransactionTable
-          data={transactions}
-          role={role}
-          onAddClick={() => setShowModal(true)}
-          onDelete={(id) => setDeleteId(id)} // ✅ FIXED
-          onEdit={(tx) => {
-            setEditingTx(tx);
-            setShowModal(true);
-          }}
-        />
-
-        {/* 🔹 Insights */}
-        <Insights data={transactions} />
+      {/* 🔹 Cards */}
+      <div className="grid md:grid-cols-3 gap-4">
+        <HeroCard balance={balance} />
+        <SummaryCard title="Income" value={income} />
+        <SummaryCard title="Expenses" value={expense} />
       </div>
+
+      {/* 🔹 Charts */}
+      <div className="mt-6">
+        <Charts data={transactions} />
+      </div>
+
+      {/* 🔹 Transactions */}
+      <TransactionTable
+        data={transactions}
+        role={role}
+        onAddClick={handleAddClick}
+        onDelete={(id) => setDeleteId(id)}
+        onEdit={(tx) => {
+          setEditingTx(tx);
+          setShowModal(true);
+        }}
+      />
+
+      {/* 🔹 Insights */}
+      <Insights data={transactions} />
 
       {/* 🔹 Add/Edit Modal */}
       {showModal && (
@@ -93,8 +92,8 @@ export default function Dashboard() {
         />
       )}
 
-      {/* 🔹 Confirm Delete Modal */}
-      {deleteId && (
+      {/* 🔹 Confirm Delete */}
+      {deleteId !== null && (
         <ConfirmModal
           onConfirm={handleConfirmDelete}
           onCancel={() => setDeleteId(null)}

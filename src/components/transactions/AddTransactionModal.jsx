@@ -1,29 +1,53 @@
 import { useState, useEffect } from "react";
 
 export default function AddTransactionModal({ onAdd, onClose, existing }) {
-  const [form, setForm] = useState({
+  const initialForm = {
     date: "",
     amount: "",
     category: "",
     type: "expense",
-  });
+  };
 
-  // ✅ Pre-fill when editing
+  const [form, setForm] = useState(initialForm);
+  const [error, setError] = useState("");
+
+  // ✅ Pre-fill safely (no mutation)
   useEffect(() => {
     if (existing) {
-      setForm(existing);
+      setForm({
+        date: existing.date || "",
+        amount: existing.amount || "",
+        category: existing.category || "",
+        type: existing.type || "expense",
+      });
+    } else {
+      setForm(initialForm); // ✅ reset when switching to add mode
     }
   }, [existing]);
 
   const handleSubmit = () => {
-    if (!form.date || !form.amount || !form.category) return;
+    // ✅ Validation
+    if (!form.date || !form.amount || !form.category) {
+      setError("All fields are required");
+      return;
+    }
 
+    if (Number(form.amount) <= 0) {
+      setError("Amount must be greater than 0");
+      return;
+    }
+
+    // ✅ Submit clean data
     onAdd({
       ...form,
       id: existing ? existing.id : Date.now(),
       amount: Number(form.amount),
+      category: form.category.trim(),
     });
 
+    // ✅ Reset state
+    setForm(initialForm);
+    setError("");
     onClose();
   };
 
@@ -37,12 +61,20 @@ export default function AddTransactionModal({ onAdd, onClose, existing }) {
           {existing ? "Edit Transaction" : "Add Transaction"}
         </h2>
 
+        {/* Error */}
+        {error && (
+          <p className="text-red-400 text-sm mb-3">{error}</p>
+        )}
+
         {/* Date */}
         <input
           type="date"
           value={form.date}
           className="w-full mb-3 p-2 bg-gray-800 rounded outline-none focus:ring-2 focus:ring-indigo-500"
-          onChange={(e) => setForm({ ...form, date: e.target.value })}
+          onChange={(e) => {
+            setForm({ ...form, date: e.target.value });
+            setError("");
+          }}
         />
 
         {/* Amount */}
@@ -51,7 +83,10 @@ export default function AddTransactionModal({ onAdd, onClose, existing }) {
           placeholder="Amount"
           value={form.amount}
           className="w-full mb-3 p-2 bg-gray-800 rounded outline-none focus:ring-2 focus:ring-indigo-500"
-          onChange={(e) => setForm({ ...form, amount: e.target.value })}
+          onChange={(e) => {
+            setForm({ ...form, amount: e.target.value });
+            setError("");
+          }}
         />
 
         {/* Category */}
@@ -59,14 +94,19 @@ export default function AddTransactionModal({ onAdd, onClose, existing }) {
           placeholder="Category"
           value={form.category}
           className="w-full mb-3 p-2 bg-gray-800 rounded outline-none focus:ring-2 focus:ring-indigo-500"
-          onChange={(e) => setForm({ ...form, category: e.target.value })}
+          onChange={(e) => {
+            setForm({ ...form, category: e.target.value });
+            setError("");
+          }}
         />
 
         {/* Type */}
         <select
           value={form.type}
           className="w-full mb-4 p-2 bg-gray-800 rounded outline-none focus:ring-2 focus:ring-indigo-500"
-          onChange={(e) => setForm({ ...form, type: e.target.value })}
+          onChange={(e) =>
+            setForm({ ...form, type: e.target.value })
+          }
         >
           <option value="expense">Expense</option>
           <option value="income">Income</option>
@@ -75,7 +115,11 @@ export default function AddTransactionModal({ onAdd, onClose, existing }) {
         {/* Actions */}
         <div className="flex justify-between items-center">
           <button
-            onClick={onClose}
+            onClick={() => {
+              setForm(initialForm); // ✅ reset on cancel
+              setError("");
+              onClose();
+            }}
             className="text-gray-400 hover:text-white transition"
           >
             Cancel
@@ -88,6 +132,7 @@ export default function AddTransactionModal({ onAdd, onClose, existing }) {
             {existing ? "Update" : "Add"}
           </button>
         </div>
+
       </div>
     </div>
   );

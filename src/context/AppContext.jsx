@@ -4,6 +4,7 @@ import {
     useState,
     useEffect,
     useMemo,
+    useCallback,
 } from "react";
 
 import { transactionsData as initialData } from "../data/mockData";
@@ -19,10 +20,15 @@ export function AppProvider({ children }) {
     // 🔹 Role
     const [role, setRole] = useState("viewer");
 
-    // 🔹 Transactions (with persistence)
+    // 🔹 Transactions (safe persistence)
     const [transactions, setTransactions] = useState(() => {
-        const saved = localStorage.getItem("transactions");
-        return saved ? JSON.parse(saved) : initialData;
+        try {
+            const saved = localStorage.getItem("transactions");
+            return saved ? JSON.parse(saved) : initialData;
+        } catch (err) {
+            console.error("Failed to parse transactions:", err);
+            return initialData;
+        }
     });
 
     // 🔹 Modal + Edit state
@@ -34,21 +40,32 @@ export function AppProvider({ children }) {
         localStorage.setItem("transactions", JSON.stringify(transactions));
     }, [transactions]);
 
-    // 🔹 Add / Update
-    const addOrUpdateTransaction = (tx) => {
+    // 🔹 Add / Update (robust + deterministic)
+    const addOrUpdateTransaction = useCallback((tx) => {
         setTransactions((prev) => {
-            if (editingTx) {
-                return prev.map((t) => (t.id === tx.id ? tx : t));
-            }
-            return [...prev, tx];
-        });
-        setEditingTx(null);
-    };
+            let newTx = tx;
 
-    // 🔹 Delete
-    const deleteTransaction = (id) => {
+            // ✅ Ensure ID exists
+            if (!tx.id) {
+                newTx = { ...tx, id: Date.now() };
+            }
+
+            const exists = prev.some((t) => t.id === newTx.id);
+
+            if (exists) {
+                return prev.map((t) => (t.id === newTx.id ? newTx : t));
+            }
+
+            return [...prev, newTx];
+        });
+
+        setEditingTx(null);
+    }, []);
+
+    // 🔹 Delete (memoized)
+    const deleteTransaction = useCallback((id) => {
         setTransactions((prev) => prev.filter((t) => t.id !== id));
-    };
+    }, []);
 
     // 🔹 Derived values (memoized)
     const income = useMemo(() => getIncome(transactions), [transactions]);
@@ -72,7 +89,6 @@ export function AppProvider({ children }) {
             addOrUpdateTransaction,
             deleteTransaction,
 
-            // ✅ Derived
             income,
             expense,
             balance,
@@ -85,13 +101,19 @@ export function AppProvider({ children }) {
             income,
             expense,
             balance,
+            addOrUpdateTransaction,
+            deleteTransaction,
         ]
     );
 
-    return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
+    return (
+        <AppContext.Provider value={value}>
+            {children}
+        </AppContext.Provider>
+    );
 }
 
-// 🔹 Custom hook (SAFE)
+// 🔹 Custom hook
 export const useAppContext = () => {
     const context = useContext(AppContext);
 
