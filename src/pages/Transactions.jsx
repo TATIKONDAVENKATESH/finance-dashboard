@@ -42,11 +42,7 @@ export default function Transactions() {
 
     return (
         <div className="space-y-6">
-            {/* 🔹 Title */}
-            <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">
-                Transactions
-            </h1>
-
+            
             {/* 🔹 Table */}
             <section>
                 <TransactionTable

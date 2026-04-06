@@ -22,7 +22,7 @@ export default function Insights({ data }) {
           : "bg-white border-gray-200 text-gray-800"
         }`}
     >
-      <h2 className="font-semibold mb-4">Insights</h2>
+      <h2 className="font-semibold mb-4">Insights (Compared to last MONTH)</h2>
 
       {/* 🔹 Highest Spending */}
       {highest?.category ? (
