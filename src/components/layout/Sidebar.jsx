@@ -60,7 +60,7 @@ export default function Sidebar() {
 
       {/* Footer */}
       <div className="mt-auto text-xs text-gray-500 dark:text-gray-400">
-        © 2026 FinDash
+        2026 FinDash
       </div>
     </div>
   );

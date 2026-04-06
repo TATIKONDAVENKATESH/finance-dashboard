@@ -22,7 +22,6 @@ export default function Transactions() {
 
     const [deleteId, setDeleteId] = useState(null);
 
-    // Convert role → boolean (single source of truth)
     const isAdmin = role === "admin";
 
     const handleAddClick = () => {
