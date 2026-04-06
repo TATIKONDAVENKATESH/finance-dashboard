@@ -15,18 +15,21 @@ export default function Card({
     return (
         <div
             className={`
-        rounded-2xl shadow-lg border backdrop-blur-lg
+        rounded-2xl border transition-all duration-200
         ${padding}
+        
         ${isDark
-                    ? "bg-white/10 border-white/10"
-                    : "bg-white border-gray-200"
+                    ? "bg-white/10 border-white/10 text-gray-100 shadow-lg backdrop-blur-lg"
+                    : "bg-white border-gray-200 text-gray-900 shadow-sm"
                 }
+
         ${hover
                     ? isDark
-                        ? "hover:bg-white/15 transition"
-                        : "hover:bg-gray-50 transition"
+                        ? "hover:bg-white/15"
+                        : "hover:bg-gray-50"
                     : ""
                 }
+
         ${className}
       `}
         >
@@ -34,7 +37,7 @@ export default function Card({
             {(title || actions) && (
                 <div className="flex justify-between items-center mb-3">
                     {title && (
-                        <h2 className="font-semibold text-gray-900 dark:text-white">
+                        <h2 className="font-semibold text-gray-800 dark:text-gray-200">
                             {title}
                         </h2>
                     )}
