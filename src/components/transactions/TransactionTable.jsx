@@ -141,7 +141,7 @@ export default function TransactionTable({
                 <TransactionRow
                   key={t.id}
                   t={t}
-                  role={isAdmin} // ✅ pass boolean
+                  role={isAdmin}
                   onDelete={onDelete}
                   onEdit={onEdit}
                 />

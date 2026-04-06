@@ -17,12 +17,20 @@ export default function TransactionRow({ t, role, onDelete, onEdit }) {
                 }`}
         >
             {/* Date */}
-            <td className="py-2 text-gray-800 dark:text-gray-300">
-                {t.date}
+            <td
+                className={`py-2 font-semibold
+          ${isDark ? "text-gray-100" : "text-gray-950"}
+        `}
+            >
+                {new Date(t.date).toLocaleDateString("en-GB")}
             </td>
 
             {/* Category */}
-            <td className="text-gray-800 dark:text-gray-300">
+            <td
+                className={`font-semibold
+          ${isDark ? "text-indigo-400" : "text-indigo-700"}
+        `}
+            >
                 {t.category}
             </td>
 
